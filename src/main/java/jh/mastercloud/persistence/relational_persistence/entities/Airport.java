@@ -12,7 +12,7 @@ import lombok.Data;
 public class Airport {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "iata_code", length = 3)

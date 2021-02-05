@@ -13,7 +13,7 @@ import lombok.Data;
 public class Plane {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "plate_number")
