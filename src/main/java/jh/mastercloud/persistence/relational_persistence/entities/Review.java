@@ -17,19 +17,20 @@ public class Review {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "begin_date", columnDefinition = "DATE")
+	@Column(name = "begin_date")
 	private LocalDate beginDate;
 
-	@Column(name = "end_date", columnDefinition = "DATE")
+	@Column(name = "end_date")
 	private LocalDate endDate;
 
-	@Column(name = "worked_hours")
+	@Column(name = "worked_hours", precision = 10, scale = 2)
 	private BigDecimal workedHours;
 
 	@Column(name = "review_type")
 	private ReviewType reviewType;
 
-	private String description;
+	@Column(name = "review_description")
+	private String reviewDescription;
 
 	// private Plane plane;
 	// private Mechanic mechanic;

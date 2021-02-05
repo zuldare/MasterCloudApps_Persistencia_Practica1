@@ -9,21 +9,14 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Crew_ {
+public class Mechanic extends Worker{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String code;
+	@Column(name = "incorporation_year")
+	private Integer incorporationYear;
 
-	private String name;
-
-	private String surname;
-
-	@Column(name = "company_name")
-	private String companyName;
-
-	@Column(name = "job_position")
-	private JobPosition jobPosition;
+	private Training training;
 }
