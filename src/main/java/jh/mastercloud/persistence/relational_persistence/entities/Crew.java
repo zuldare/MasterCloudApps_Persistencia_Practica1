@@ -10,4 +10,9 @@ public class Crew extends Worker {
 
 	@Column(name = "job_position")
 	private JobPosition jobPosition;
+
+	@Override
+	public String toString(){
+		return "[ " + super.toString() + ", " + this.jobPosition.toString() + " ]";
+	}
 }
