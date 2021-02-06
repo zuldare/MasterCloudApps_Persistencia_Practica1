@@ -17,14 +17,14 @@ import lombok.Data;
 public class Flight {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String flightCode;
 
 	private String companyName;
 
-	@Column(name = "flight_departure_datetime", columnDefinition = "TIMESTAMP")
+	@Column(name = "flight_departure_datetime")
 	private LocalDateTime flightDepartureDateTime;
 
 	@Column(name = "flight_duration")

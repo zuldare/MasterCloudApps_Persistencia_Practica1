@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import jh.mastercloud.persistence.relational_persistence.entities.Airport;
+import jh.mastercloud.persistence.relational_persistence.entities.Crew;
+import jh.mastercloud.persistence.relational_persistence.entities.JobPosition;
 import jh.mastercloud.persistence.relational_persistence.entities.Plane;
 import jh.mastercloud.persistence.relational_persistence.entities.Review;
 import jh.mastercloud.persistence.relational_persistence.entities.ReviewType;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.PlaneRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,12 @@ public class DatabaseLoader implements CommandLineRunner {
 	private static final String SINISTER = "Sinister";
 	private static final String PLANE_CRASHED_WHILE_TAKE_OFF = "Plane crashed while take off";
 	private static final String FIRST_SETUP = "First setup";
+	private static final String CAPTAIN_01_WORKERCODE = "CAPTAIN-01";
+	private static final String AIR_EUROPA_COMPANY_NAME = "AIR-EUROPA";
+	private static final String CAPTAIN = "CAPTAIN";
+	private static final String COPILOT = "COPILOT";
+	private static final String BRITISH_AIRWAYS = "BRITISH AIRWAYS";
+	private static final String COP_03_WORKER_CODE = "COP-03";
 
 	@Autowired
 	private PlaneRepository planeRepository;
@@ -44,6 +53,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Autowired
 	private ReviewRepository reviewRepository;
 
+	@Autowired
+	private CrewRepository crewRepository;
+
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("==================================");
@@ -53,6 +65,12 @@ public class DatabaseLoader implements CommandLineRunner {
 		generatePlaneInformation();
 		generateAirportInformation();
 		generateReviewInformation();
+		generateCrewInformation();
+
+ 		// crew
+		// flight
+		// jobposition
+		// mechanic
 
 		System.out.println("====> AIRPLANES");
 		planeRepository.findAll().stream().forEach(System.out::println);
@@ -62,6 +80,37 @@ public class DatabaseLoader implements CommandLineRunner {
 
 		System.out.println("====> REVIEWS");
 		reviewRepository.findAll().stream().forEach(System.out::println);
+
+		System.out.println("====> CREW");
+		crewRepository.findAll().stream().forEach(System.out::println);
+	}
+
+	private void generateCrewInformation(){
+		System.out.println("-------- PLANE CREATION --------");
+
+		JobPosition jobPosition = new JobPosition();
+		jobPosition.setJobDescription(CAPTAIN);
+
+		JobPosition jobPosition1 = new JobPosition();
+		jobPosition1.setJobDescription(COPILOT);
+
+		crewRepository.saveAll(
+				Arrays.asList(
+					createCrewMember("Santiago", "Paradela", AIR_EUROPA_COMPANY_NAME, CAPTAIN_01_WORKERCODE, jobPosition),
+					createCrewMember("John", "Doe", BRITISH_AIRWAYS, COP_03_WORKER_CODE, jobPosition1)
+				)
+		);
+	}
+
+	private Crew createCrewMember(String name, String surname, String companyName, String workerCode, JobPosition jobPosition) {
+		Crew crew = new Crew();
+		crew.setName(name);
+		crew.setSurnames(surname);
+		crew.setCompanyName(companyName);
+		crew.setWorkerCode(workerCode);
+		crew.setJobPosition(jobPosition);
+
+		return crew;
 	}
 
 	private void generateReviewInformation(){
