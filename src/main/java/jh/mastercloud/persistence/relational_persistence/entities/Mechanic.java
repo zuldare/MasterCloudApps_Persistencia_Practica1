@@ -5,11 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "mechanic")
 @Data
-public class Mechanic extends Worker{
+public class Mechanic extends Worker {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,4 +24,12 @@ public class Mechanic extends Worker{
 	private Integer incorporationYear;
 
 	private Training training;
+
+	@Override
+	public String toString(){
+		return "[" + super.toString()
+				+ ", " + this.training.toString()
+				+ ", incorporationYear " + this.incorporationYear
+				+ "]";
+	}
 }
