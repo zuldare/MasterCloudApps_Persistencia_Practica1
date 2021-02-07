@@ -16,6 +16,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "mechanic")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mechanic extends Worker {
 
 	@Id
@@ -28,6 +31,15 @@ public class Mechanic extends Worker {
 	@NotNull
 	private Training training;
 
+	@Builder
+	public Mechanic(String workerCode, String name, String surname, String companyName, Training training, Integer incorporationYear){
+		this.setWorkerCode(workerCode);
+		this.setName(name);
+		this.setSurname(surname);
+		this.setCompanyName(companyName);
+		this.setTraining(training);
+		this.incorporationYear = incorporationYear;
+	}
 
 	@Override
 	public String toString(){

@@ -10,13 +10,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import jh.mastercloud.persistence.relational_persistence.entities.Airport;
 import jh.mastercloud.persistence.relational_persistence.entities.Crew;
 import jh.mastercloud.persistence.relational_persistence.entities.Flight;
 import jh.mastercloud.persistence.relational_persistence.entities.FlightCrew;
+import jh.mastercloud.persistence.relational_persistence.entities.Mechanic;
 import jh.mastercloud.persistence.relational_persistence.entities.Plane;
+import jh.mastercloud.persistence.relational_persistence.entities.Training;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.FlightRepository;
@@ -63,6 +66,9 @@ public class DataBasePopulator {
 	private static final String FLIGHT_CODE_MAD_PARIS = "AE999";
 	private static final String FLIGHT_CODE_LONDON_PARIS = "BA555";
 
+	private static final String TRAINING_GRADE = "Grado";
+	private static final String TRAINING_FP = "FP";
+
 	@Autowired
 	private PlaneRepository planeRepository;
 
@@ -85,6 +91,7 @@ public class DataBasePopulator {
   private Map<String, Airport> airports = new HashMap<>();
   private Map<String, Crew> crewMembers = new HashMap<>();
   private Map<String, Flight> flights = new HashMap<>();
+  private Map<String, Mechanic> mechanics = new HashMap<>();
 
   private LocalDateTime dateTime_2020_01_31_08_30 = LocalDateTime.of(2020,1,31,8,30,0);
   private LocalDateTime dateTime_2020_02_15_10_50 = LocalDateTime.of(2020,2,15, 10,50,0);
@@ -94,10 +101,13 @@ public class DataBasePopulator {
 		 createPlanes();
 		 createAirports();
 		 createCrewMembers();
-		 createFlights();
-//		 assingCrewToFlights();
-//		 createMechanics();
-//		 createPlaneReviews();
+			createMechanics();
+//  assingCrewToFlights();
+//
+//	createPlaneReviews();
+		 //OK -> createFlights();
+
+		System.out.println("ASDF");
 	}
 
 	public void deleteDataBase(){
@@ -113,6 +123,16 @@ public class DataBasePopulator {
 	private void initData(){
 		this.airports = new HashMap<>();
 		this.planes = new HashMap<>();
+	}
+
+	private void createMechanics(){
+
+		Mechanic mechanic1 = new Mechanic(WORKER_CODE_MEC_1, "Pepe", "Gotera", COMPANY_NAME_AIREUROPA, new Training(TRAINING_GRADE),2014);
+		Mechanic mechanic2 = new Mechanic(WORKER_CODE_MEC_2, "Otilio", "Otilio", COMPANY_NAME_BRITISH, new Training(TRAINING_FP), 2016);
+		this.mechanics.put(WORKER_CODE_MEC_1, mechanic1);
+		this.mechanics.put(WORKER_CODE_MEC_2, mechanic2);
+
+		this.mechanicRepository.saveAll(this.mechanics.values());
 	}
 
 	private void createPlanes(){
@@ -132,7 +152,6 @@ public class DataBasePopulator {
 	}
 
 	private void createCrewMembers(){
-
 
 		this.crewMembers.put(WORKER_CODE_CAP_1, Crew.builder().workerCode(WORKER_CODE_CAP_1).name("Santiago").surname("Paradelas")
 				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(JOB_DESC_CAPTAIN).build());
@@ -172,7 +191,6 @@ public class DataBasePopulator {
 				.departureAirport(this.airports.get(CITY_LONDON))
 				.destinationAirport(this.airports.get(CITY_PARIS))
 				.build());
-//		private List<FlightCrew> crewList;
 
 		flightRepository.saveAll(this.flights.values());
 
