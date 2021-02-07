@@ -112,7 +112,6 @@ public class DataBasePopulator {
 		 createMechanics();
 		 createPlaneReviews();
 		 createFlights();
-
 		System.out.println("=============> END OF DATABASE INITIALIZATION\n\n");
 	}
 
@@ -141,7 +140,6 @@ public class DataBasePopulator {
 				.reviewType(new ReviewType(REVIEW_WHEELS)).reviewDescription(REVIEW_WHEELS_ANUAL_CHECK)
 				.plane(this.planes.get(PLANE_NUMBER_1)).mechanic(this.mechanics.get(WORKER_CODE_MEC_2))
 				.airport(this.airports.get(CITY_LONDON)).build();
-
 
 		System.out.println("---> INSERT REVIEWS <---");
 		this.reviewRepository.saveAll(Arrays.asList(reviewCockpitMadrid, reviewWheelsLondon));
@@ -242,7 +240,6 @@ public class DataBasePopulator {
 		flightMadridLondon.setCrewList(assignCrewToFlight(flightMadridLondon, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1)))));
 		flightMadridParis.setCrewList(assignCrewToFlight(flightMadridParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1))) ));
 		System.out.println("-----------------------------");
-
 	}
 
 	private List<FlightCrew> assignCrewToFlight(Flight flight, List<Crew> crewList){
