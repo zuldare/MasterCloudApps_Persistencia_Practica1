@@ -64,7 +64,7 @@ práctica se haga por parejas:
 
 ## Modelo de datos
 El modelo de datos tiene la siguiente forma:
-![Modelo de datos](docs/ERmodel.png)
+![Modelo de datos](docs/E2222Rmodel.png)
 
 
 ## Autor

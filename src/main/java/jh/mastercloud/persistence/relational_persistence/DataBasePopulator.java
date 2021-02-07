@@ -112,16 +112,17 @@ public class DataBasePopulator {
 		 createMechanics();
 		 createPlaneReviews();
 		 createFlights();
-		System.out.println("=============> END OF DATABASE INITIALIZATION\n\n");
+		 System.out.println("=============> END OF DATABASE INITIALIZATION\n\n");
 	}
 
 	public void deleteDataBase(){
-		this.planeRepository.deleteAll();
+		this.flightCrewRepository.deleteAll();
 		this.reviewRepository.deleteAll();
 		this.crewRepository.deleteAll();
 		this.mechanicRepository.deleteAll();
-		this.airportRepository.deleteAll();
 		this.flightRepository.deleteAll();
+		this.airportRepository.deleteAll();
+		this.planeRepository.deleteAll();
 		this.initData();
 	}
 
@@ -146,7 +147,7 @@ public class DataBasePopulator {
 
 		System.out.println("---> INSERT REVIEWS <---");
 		this.reviewRepository.saveAll(Arrays.asList(reviewCockpitMadrid, reviewWheelsLondon));
-		System.out.println("-----------------------------");
+		System.out.println("-----------------------------\n\n");
 	}
 
 	private void createMechanics(){
@@ -157,7 +158,7 @@ public class DataBasePopulator {
 
 		System.out.println("---> INSERT MECHANICS <---");
 		this.mechanicRepository.saveAll(this.mechanics.values());
-		System.out.println("-----------------------------");
+		System.out.println("-----------------------------\n\n");
 	}
 
 	private void createPlanes(){
@@ -167,7 +168,7 @@ public class DataBasePopulator {
 
 		System.out.println("---> INSERT PLANES <---");
 		planeRepository.saveAll(this.planes.values());
-		System.out.println("-----------------------------");
+		System.out.println("-----------------------------\n\n");
 	}
 
 	private void createAirports(){
@@ -177,7 +178,7 @@ public class DataBasePopulator {
 
 		System.out.println("---> INSERT AIRPORTS <---");
 		airportRepository.saveAll(this.airports.values());
-		System.out.println("-----------------------------");
+		System.out.println("-----------------------------\n\n");
 	}
 
 	private void createCrewMembers(){
@@ -197,7 +198,7 @@ public class DataBasePopulator {
 
 		System.out.println("---> INSERT CREW MEMBERS <---");
 		crewRepository.saveAll(this.crewMembers.values());
-		System.out.println("-----------------------------");
+		System.out.println("-----------------------------\n\n");
 	}
 
 	private void createFlights(){
@@ -234,14 +235,18 @@ public class DataBasePopulator {
 				.build();
 		this.flights.put(FLIGHT_CODE_LONDON_PARIS, flightLondonParis);
 
-		System.out.println("---> INSERT FLIGHTS <---");
+		System.out.println("---> INSERT FLIGHTS FIRST TIME WITHOUT CREW <---");
 		flightRepository.saveAll(this.flights.values());
-		System.out.println("-----------------------------\n\n");
+		System.out.println("-----------------------------");
 
 		System.out.println("---> ASSIGN CREW TO FLIGHT <---");
 		flightLondonParis.setCrewList(assignCrewToFlight(flightLondonParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_2), this.crewMembers.get(WORKER_CODE_LTD_2), this.crewMembers.get(WORKER_CODE_HOS_2)))));
 		flightMadridLondon.setCrewList(assignCrewToFlight(flightMadridLondon, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1)))));
 		flightMadridParis.setCrewList(assignCrewToFlight(flightMadridParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1))) ));
+		System.out.println("-----------------------------");
+
+		System.out.println("---> INSERT FLIGHTS SECOND TIME WITH CREW <---");
+		flightRepository.saveAll(Arrays.asList(flightMadridLondon, flightLondonParis, flightMadridParis));
 		System.out.println("-----------------------------");
 	}
 
