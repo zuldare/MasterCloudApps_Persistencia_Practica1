@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,8 +31,13 @@ public class Crew extends Worker {
 	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<FlightCrew> flightCrewList;
 
-	@Override
-	public String toString(){
-		return "[ " + super.toString() + ", " + this.jobPosition.toString() + " ]";
+	@Builder
+	public Crew(String workerCode, String name, String surname, String companyName, JobPosition jobPosition){
+		this.setWorkerCode(workerCode);
+		this.setName(name);
+		this.setSurname(surname);
+		this.setCompanyName(companyName);
+		this.setJobPosition(jobPosition);
+
 	}
 }

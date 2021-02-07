@@ -18,12 +18,12 @@ public class DatabaseLoader implements CommandLineRunner {
 
 		try {
 			initDataBase();
-			findPlanesAndMechanics();
-			findLandedFlightsOfaGivenCityAndDate();
-			findCrewDataCitiesAndDatesByCrewCode();
-			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
+//			findPlanesAndMechanics();
+//			findLandedFlightsOfaGivenCityAndDate();
+//			findCrewDataCitiesAndDatesByCrewCode();
+//			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
 		} finally {
-			deleteDataBase();
+//			deleteDataBase();
 		}
 
 
