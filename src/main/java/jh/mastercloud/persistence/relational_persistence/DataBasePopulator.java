@@ -3,22 +3,19 @@ package jh.mastercloud.persistence.relational_persistence;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import jh.mastercloud.persistence.relational_persistence.entities.Airport;
 import jh.mastercloud.persistence.relational_persistence.entities.Crew;
 import jh.mastercloud.persistence.relational_persistence.entities.Flight;
 import jh.mastercloud.persistence.relational_persistence.entities.FlightCrew;
 import jh.mastercloud.persistence.relational_persistence.entities.Mechanic;
 import jh.mastercloud.persistence.relational_persistence.entities.Plane;
+import jh.mastercloud.persistence.relational_persistence.entities.Review;
+import jh.mastercloud.persistence.relational_persistence.entities.ReviewType;
 import jh.mastercloud.persistence.relational_persistence.entities.Training;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
@@ -35,17 +32,18 @@ public class DataBasePopulator {
 	private static final String WORKER_CODE_MEC_1 = "MEC-0001";
 	private static final String WORKER_CODE_MEC_2 = "MEC-1002";
 	private static final String WORKER_CODE_CAP_1 = "CAP-0001";
+	private static final String WORKER_CODE_CAP_2 = "CAP-0002";
 	private static final String WORKER_CODE_LTD_1 = "LTD-0001";
+	private static final String WORKER_CODE_LTD_2 = "LTD-0002";
 	private static final String WORKER_CODE_HOS_1 = "HOS-3421";
+	private static final String WORKER_CODE_HOS_2 = "HOS-9999";
 
 	private static final String JOB_DESC_CAPTAIN = "Captain";
 	private static final String JOB_DESC_COPILOT = "Copilot";
-	private static final String JOB_DESC_MECHANIC = "Mechanic";
 	private static final String JOB_DESC_HOSTESS = "Hostess";
 
 	private static final String COMPANY_NAME_BRITISH = "British Airways";
 	private static final String COMPANY_NAME_AIREUROPA = "Air Europa";
-	private static final String COMPANY_NAME_HOSTESS = "Hostess S.A.";
 
 	private static final String PLANE_NUMBER_1 = "AAAAA";
 	private static final String PLANE_NUMBER_2 = "BBBBB";
@@ -68,6 +66,10 @@ public class DataBasePopulator {
 
 	private static final String TRAINING_GRADE = "Grado";
 	private static final String TRAINING_FP = "FP";
+	private static final String REVIEW_COCKPIT = "COCKPIT REVIEW";
+	private static final String REVIEW_COCKPIT_WIRE_INSTALLATION = "Review cockpit wire installation";
+	private static final String REVIEW_WHEELS = "WHEELS REVIEW";
+	private static final String REVIEW_WHEELS_ANUAL_CHECK = "Check wheel integrity";
 
 	@Autowired
 	private PlaneRepository planeRepository;
@@ -96,18 +98,18 @@ public class DataBasePopulator {
   private LocalDateTime dateTime_2020_01_31_08_30 = LocalDateTime.of(2020,1,31,8,30,0);
   private LocalDateTime dateTime_2020_02_15_10_50 = LocalDateTime.of(2020,2,15, 10,50,0);
   private LocalDateTime dateTime_2020_01_01_13_45 = LocalDateTime.of(2020, 1, 1,13,45,0);
+  private LocalDate reviewCockpitDate = LocalDate.of(2019, 12, 12);
+  private LocalDate reviewWheelDate = LocalDate.of(2019, 11, 11);
 
 	public void initDataBase() {
 		 createPlanes();
 		 createAirports();
 		 createCrewMembers();
-			createMechanics();
-//  assingCrewToFlights();
-//
-//	createPlaneReviews();
-		 //OK -> createFlights();
+		 createMechanics();
+		 createPlaneReviews();
+		 createFlights();
 
-		System.out.println("ASDF");
+		System.out.println("=============> END OF DATABASE INITIALIZATION\n\n");
 	}
 
 	public void deleteDataBase(){
@@ -125,14 +127,32 @@ public class DataBasePopulator {
 		this.planes = new HashMap<>();
 	}
 
-	private void createMechanics(){
+	private void createPlaneReviews(){
+		Review reviewCockpitMadrid = Review.builder().beginDate(reviewCockpitDate).endDate(reviewCockpitDate).workedHours(BigDecimal.TEN)
+				.reviewType(new ReviewType(REVIEW_COCKPIT)).reviewDescription(REVIEW_COCKPIT_WIRE_INSTALLATION)
+				.plane(this.planes.get(PLANE_NUMBER_1)).mechanic(this.mechanics.get(WORKER_CODE_MEC_1))
+				.airport(this.airports.get(CITY_MADRID)).build();
 
+		Review reviewWheelsLondon = Review.builder().beginDate(reviewWheelDate).endDate(reviewWheelDate).workedHours(BigDecimal.ONE)
+				.reviewType(new ReviewType(REVIEW_WHEELS)).reviewDescription(REVIEW_WHEELS_ANUAL_CHECK)
+				.plane(this.planes.get(PLANE_NUMBER_1)).mechanic(this.mechanics.get(WORKER_CODE_MEC_2))
+				.airport(this.airports.get(CITY_LONDON)).build();
+
+
+		System.out.println("---> INSERT REVIEWS <---");
+		this.reviewRepository.saveAll(Arrays.asList(reviewCockpitMadrid, reviewWheelsLondon));
+		System.out.println("-----------------------------");
+	}
+
+	private void createMechanics(){
 		Mechanic mechanic1 = new Mechanic(WORKER_CODE_MEC_1, "Pepe", "Gotera", COMPANY_NAME_AIREUROPA, new Training(TRAINING_GRADE),2014);
 		Mechanic mechanic2 = new Mechanic(WORKER_CODE_MEC_2, "Otilio", "Otilio", COMPANY_NAME_BRITISH, new Training(TRAINING_FP), 2016);
 		this.mechanics.put(WORKER_CODE_MEC_1, mechanic1);
 		this.mechanics.put(WORKER_CODE_MEC_2, mechanic2);
 
+		System.out.println("---> INSERT MECHANICS <---");
 		this.mechanicRepository.saveAll(this.mechanics.values());
+		System.out.println("-----------------------------");
 	}
 
 	private void createPlanes(){
@@ -140,7 +160,9 @@ public class DataBasePopulator {
 		this.planes.put(PLANE_NUMBER_2, Plane.builder().plateNumber(PLANE_NUMBER_2).manufacturer(MANUFACTURER_AIRBUS).model("A380").flightHours(BigDecimal.valueOf(685.5)).build());
 		this.planes.put(PLANE_NUMBER_3, Plane.builder().plateNumber(PLANE_NUMBER_3).manufacturer(MANUFACTURER_BOEING).model("747").flightHours(BigDecimal.valueOf(150.0)).build());
 
+		System.out.println("---> INSERT PLANES <---");
 		planeRepository.saveAll(this.planes.values());
+		System.out.println("-----------------------------");
 	}
 
 	private void createAirports(){
@@ -148,51 +170,83 @@ public class DataBasePopulator {
 		this.airports.put(CITY_LONDON, Airport.builder().city(CITY_LONDON).country("UK").iataCode("LHR").name(AIRPORT_LONDON).build());
 		this.airports.put(CITY_PARIS, Airport.builder().city(CITY_PARIS).country("FR").iataCode("ORY").name(AIRPORT_PARIS).build());
 
+		System.out.println("---> INSERT AIRPORTS <---");
 		airportRepository.saveAll(this.airports.values());
+		System.out.println("-----------------------------");
 	}
 
 	private void createCrewMembers(){
-
 		this.crewMembers.put(WORKER_CODE_CAP_1, Crew.builder().workerCode(WORKER_CODE_CAP_1).name("Santiago").surname("Paradelas")
 				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(JOB_DESC_CAPTAIN).build());
 		this.crewMembers.put(WORKER_CODE_LTD_1, Crew.builder().workerCode(WORKER_CODE_LTD_1).name("John").surname("Doe")
 				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(JOB_DESC_COPILOT).build());
 		this.crewMembers.put(WORKER_CODE_HOS_1, Crew.builder().workerCode(WORKER_CODE_HOS_1).name("Ana").surname("Garcia")
-				.companyName(COMPANY_NAME_HOSTESS).jobPosition(JOB_DESC_HOSTESS).build());
+				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(JOB_DESC_HOSTESS).build());
 
+		this.crewMembers.put(WORKER_CODE_CAP_2, Crew.builder().workerCode(WORKER_CODE_CAP_2).name("Pedro").surname("Mancias")
+				.companyName(COMPANY_NAME_BRITISH).jobPosition(JOB_DESC_CAPTAIN).build());
+		this.crewMembers.put(WORKER_CODE_LTD_2, Crew.builder().workerCode(WORKER_CODE_LTD_1).name("Juan").surname("Pil")
+				.companyName(COMPANY_NAME_BRITISH).jobPosition(JOB_DESC_COPILOT).build());
+		this.crewMembers.put(WORKER_CODE_HOS_2, Crew.builder().workerCode(WORKER_CODE_HOS_1).name("Maria").surname("Fernandez")
+				.companyName(COMPANY_NAME_BRITISH).jobPosition(JOB_DESC_HOSTESS).build());
+
+		System.out.println("---> INSERT CREW MEMBERS <---");
 		crewRepository.saveAll(this.crewMembers.values());
+		System.out.println("-----------------------------");
 	}
 
 	private void createFlights(){
 
-		this.flights.put(FLIGHT_CODE_MAD_LONDON, Flight.builder().flightCode(FLIGHT_CODE_MAD_LONDON)
+		// MAD --> LONDON
+		Flight flightMadridLondon = Flight.builder().flightCode(FLIGHT_CODE_MAD_LONDON)
 				.companyName(COMPANY_NAME_AIREUROPA)
 				.flightDepartureDateTime(dateTime_2020_01_31_08_30)
 				.flightDuration(BigDecimal.valueOf(2.0))
 				.plane(this.planes.get(PLANE_NUMBER_1))
 				.departureAirport(this.airports.get(CITY_MADRID))
 				.destinationAirport(this.airports.get(CITY_LONDON))
-				.build());
+				.build();
+		flightMadridLondon.setCrewList(assignCrewToFlight(flightMadridLondon, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1)))));
+		this.flights.put(FLIGHT_CODE_MAD_LONDON, flightMadridLondon);
 
-		this.flights.put(FLIGHT_CODE_MAD_PARIS, Flight.builder().flightCode(FLIGHT_CODE_MAD_PARIS)
+		// MAD --> PARIS
+		Flight flightMadridParis = Flight.builder().flightCode(FLIGHT_CODE_MAD_PARIS)
 				.companyName(COMPANY_NAME_AIREUROPA)
 				.flightDepartureDateTime(dateTime_2020_02_15_10_50)
 				.flightDuration(BigDecimal.valueOf(1.5))
 				.plane(this.planes.get(PLANE_NUMBER_1))
 				.departureAirport(this.airports.get(CITY_MADRID))
 				.destinationAirport(this.airports.get(CITY_PARIS))
-				.build());
+				.build();
+		flightMadridParis.setCrewList(assignCrewToFlight(flightMadridParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1))) ));
+		this.flights.put(FLIGHT_CODE_MAD_PARIS, flightMadridParis);
 
-		this.flights.put(FLIGHT_CODE_LONDON_PARIS, Flight.builder().flightCode(FLIGHT_CODE_LONDON_PARIS)
+
+		// LONDON --> PARIS
+		Flight flightLondonParis = Flight.builder().flightCode(FLIGHT_CODE_LONDON_PARIS)
 				.companyName(COMPANY_NAME_BRITISH)
 				.flightDepartureDateTime(dateTime_2020_01_01_13_45)
 				.flightDuration(BigDecimal.valueOf(2.5))
 				.plane(this.planes.get(PLANE_NUMBER_3))
 				.departureAirport(this.airports.get(CITY_LONDON))
 				.destinationAirport(this.airports.get(CITY_PARIS))
-				.build());
+				.build();
+		flightLondonParis.setCrewList(assignCrewToFlight(flightLondonParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_2), this.crewMembers.get(WORKER_CODE_LTD_2), this.crewMembers.get(WORKER_CODE_HOS_2)))));
+		this.flights.put(FLIGHT_CODE_LONDON_PARIS, flightLondonParis);
 
+		System.out.println("---> INSERT FLIGHTS <---");
 		flightRepository.saveAll(this.flights.values());
+		System.out.println("-----------------------------");
 
 	}
+
+	private List<FlightCrew> assignCrewToFlight(Flight flight, List<Crew> crewList){
+		List<FlightCrew> flightCrewList = new ArrayList<>();
+
+		for(int i=0; i< crewList.size(); i++){
+			flightCrewList.add(new FlightCrew(flight, crewList.get(i)));
+		}
+		return flightCrewList;
+	}
+
 }

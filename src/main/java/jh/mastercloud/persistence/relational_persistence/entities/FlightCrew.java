@@ -7,10 +7,12 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "flight_crew")
 @Data
+@NoArgsConstructor
 public class FlightCrew {
 
 	@EmbeddedId
@@ -25,4 +27,10 @@ public class FlightCrew {
 	@MapsId("crewId")
 	@NotNull
 	private Crew crew;
+
+	public FlightCrew(Flight flight, Crew crew){
+		this.flight = flight;
+		this.crew = crew;
+		this.id = new FlightCrewId(flight.getId(), crew.getId());
+	}
 }
