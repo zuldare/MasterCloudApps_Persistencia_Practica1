@@ -19,6 +19,7 @@ import jh.mastercloud.persistence.relational_persistence.entities.ReviewType;
 import jh.mastercloud.persistence.relational_persistence.entities.Training;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.FlightCrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.FlightRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.MechanicRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.PlaneRepository;
@@ -88,6 +89,9 @@ public class DataBasePopulator {
 
 	@Autowired
 	private FlightRepository flightRepository;
+
+	@Autowired
+	private FlightCrewRepository flightCrewRepository;
 
   private Map<String, Plane> planes = new HashMap<>();
   private Map<String, Airport> airports = new HashMap<>();
@@ -196,7 +200,6 @@ public class DataBasePopulator {
 	}
 
 	private void createFlights(){
-
 		// MAD --> LONDON
 		Flight flightMadridLondon = Flight.builder().flightCode(FLIGHT_CODE_MAD_LONDON)
 				.companyName(COMPANY_NAME_AIREUROPA)
@@ -206,7 +209,6 @@ public class DataBasePopulator {
 				.departureAirport(this.airports.get(CITY_MADRID))
 				.destinationAirport(this.airports.get(CITY_LONDON))
 				.build();
-		flightMadridLondon.setCrewList(assignCrewToFlight(flightMadridLondon, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1)))));
 		this.flights.put(FLIGHT_CODE_MAD_LONDON, flightMadridLondon);
 
 		// MAD --> PARIS
@@ -218,9 +220,7 @@ public class DataBasePopulator {
 				.departureAirport(this.airports.get(CITY_MADRID))
 				.destinationAirport(this.airports.get(CITY_PARIS))
 				.build();
-		flightMadridParis.setCrewList(assignCrewToFlight(flightMadridParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1))) ));
 		this.flights.put(FLIGHT_CODE_MAD_PARIS, flightMadridParis);
-
 
 		// LONDON --> PARIS
 		Flight flightLondonParis = Flight.builder().flightCode(FLIGHT_CODE_LONDON_PARIS)
@@ -231,12 +231,16 @@ public class DataBasePopulator {
 				.departureAirport(this.airports.get(CITY_LONDON))
 				.destinationAirport(this.airports.get(CITY_PARIS))
 				.build();
-		flightLondonParis.setCrewList(assignCrewToFlight(flightLondonParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_2), this.crewMembers.get(WORKER_CODE_LTD_2), this.crewMembers.get(WORKER_CODE_HOS_2)))));
 		this.flights.put(FLIGHT_CODE_LONDON_PARIS, flightLondonParis);
 
 		System.out.println("---> INSERT FLIGHTS <---");
 		flightRepository.saveAll(this.flights.values());
 		System.out.println("-----------------------------");
+
+		flightLondonParis.setCrewList(assignCrewToFlight(flightLondonParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_2), this.crewMembers.get(WORKER_CODE_LTD_2), this.crewMembers.get(WORKER_CODE_HOS_2)))));
+		flightMadridLondon.setCrewList(assignCrewToFlight(flightMadridLondon, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1)))));
+		flightMadridParis.setCrewList(assignCrewToFlight(flightMadridParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1))) ));
+
 
 	}
 
@@ -246,6 +250,7 @@ public class DataBasePopulator {
 		for(int i=0; i< crewList.size(); i++){
 			flightCrewList.add(new FlightCrew(flight, crewList.get(i)));
 		}
+		this.flightCrewRepository.saveAll(flightCrewList);
 		return flightCrewList;
 	}
 
