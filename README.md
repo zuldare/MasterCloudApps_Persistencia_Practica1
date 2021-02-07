@@ -60,9 +60,9 @@ práctica se haga por parejas:
 * El nombre del fichero .zip contendrá el correo de ambos alumnos separado por
   guión. Por ejemplo p.perezf2019-z.gonzalez2019.zip
 
-## Resolución de la práctica
+ 
 
-### Modelo de datos
+## Modelo de datos
 El modelo de datos tiene la siguiente forma:
 ![Modelo de datos](docs/ERmodel.png)
 
