@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "crew")
@@ -25,6 +26,7 @@ public class Crew extends Worker {
 	@NotNull
 	private JobPosition jobPosition;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<FlightCrew> flightCrewList;
 

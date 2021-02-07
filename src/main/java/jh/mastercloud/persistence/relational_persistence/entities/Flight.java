@@ -63,5 +63,5 @@ public class Flight {
 
 	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
 	@NotEmpty
-	private List<Crew> crewList;
+	private List<FlightCrew> crewList;
 }
