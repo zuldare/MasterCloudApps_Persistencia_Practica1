@@ -59,6 +59,10 @@ public class DataBasePopulator {
 	private static final String AIRPORT_LONDON = "Heathrow";
 	private static final String AIRPORT_PARIS = "Paris-Orly";
 
+	private static final String FLIGHT_CODE_MAD_LONDON = "AE111";
+	private static final String FLIGHT_CODE_MAD_PARIS = "AE999";
+	private static final String FLIGHT_CODE_LONDON_PARIS = "BA555";
+
 	@Autowired
 	private PlaneRepository planeRepository;
 
@@ -134,22 +138,31 @@ public class DataBasePopulator {
 	}
 
 	private void createFlights(){
-		Flight.builder().flightCode()
-		 .companyName()
+		Flight.builder().flightCode(FLIGHT_CODE_MAD_LONDON)
+		 .companyName(COMPANY_NAME_AIREUROPA)
 		 .flightDepartureDateTime()
 		 .flightDuration()
-		 .plane()
-		 .departureAirport()
-		 .destinationAirport()
+		 .plane(this.planes.get(PLANE_NUMBER_1))
+		 .departureAirport(this.airports.get(AIRPORT_MADRID))
+		 .destinationAirport(this.airports.get(AIRPORT_LONDON))
 				.build();
 
-		Flight.builder().flightCode()
-				.companyName()
+		Flight.builder().flightCode(FLIGHT_CODE_MAD_PARIS)
+				.companyName(COMPANY_NAME_AIREUROPA)
 				.flightDepartureDateTime()
 				.flightDuration()
-				.plane()
-				.departureAirport()
-				.destinationAirport()
+				.plane(this.planes.get(PLANE_NUMBER_1))
+				.departureAirport(this.airports.get(AIRPORT_MADRID))
+				.destinationAirport(this.airports.get(AIRPORT_PARIS))
+				.build();
+
+		Flight.builder().flightCode(FLIGHT_CODE_LONDON_PARIS)
+				.companyName(COMPANY_NAME_BRITISH)
+				.flightDepartureDateTime()
+				.flightDuration()
+				.plane(this.planes.get(PLANE_NUMBER_3))
+				.departureAirport(this.airports.get(AIRPORT_LONDON))
+				.destinationAirport(this.airports.get(AIRPORT_PARIS))
 				.build();
 //		private String flightCode;
 //		private String companyName;
