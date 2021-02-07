@@ -1,7 +1,9 @@
 package jh.mastercloud.persistence.relational_persistence;
 
 import java.util.List;
+import jh.mastercloud.persistence.relational_persistence.dtos.FlightByDestinationCityDto;
 import jh.mastercloud.persistence.relational_persistence.dtos.PlaneMechanicNameSurnameDto;
+import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,9 @@ public class DatabaseLoader implements CommandLineRunner {
 
 	@Autowired
 	private ReviewRepository reviewRepository;
+
+	@Autowired
+	private AirportRepository airportRepository;
 
 	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
 		this.dataBasePopulator = dataBasePopulator;
@@ -34,7 +39,6 @@ public class DatabaseLoader implements CommandLineRunner {
 			deleteDataBase();
 			System.out.println("END");
 		}
-
 	}
 
 	private void findPlanesAndMechanics() {
@@ -46,8 +50,6 @@ public class DatabaseLoader implements CommandLineRunner {
 		List<PlaneMechanicNameSurnameDto> airplanesMechanics = reviewRepository.findMechanicNameSurnameOfReviewedPlanesWithJoins();
 		airplanesMechanics.stream().forEach(System.out::println);
 		System.out.println("--------------------------------------\n\n");
-
-
 	}
 
 	private void findLandedFlightsOfaGivenCityAndDate() {
@@ -57,9 +59,9 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("  * List of landed flights in given city");
 		System.out.println("  * Order result by hour");
 
-
-
-
+		List<FlightByDestinationCityDto> landedFlights = airportRepository
+				.findFlightsGivenCityAndDateOrderedByDepartureDateTime("PARIS".toLowerCase(), "2020-01-01");
+		landedFlights.stream().forEach(System.out::println);
 
 		System.out.println("----------------------------------------\n\n");
 	}

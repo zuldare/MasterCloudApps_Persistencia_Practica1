@@ -103,7 +103,6 @@ public class DataBasePopulator {
   private Map<String, Mechanic> mechanics = new HashMap<>();
 
   private LocalDateTime dateTime_2020_01_31_08_30 = LocalDateTime.of(2020,1,31,8,30,0);
-  private LocalDateTime dateTime_2020_02_15_10_50 = LocalDateTime.of(2020,2,15, 10,50,0);
   private LocalDateTime dateTime_2020_01_01_13_45 = LocalDateTime.of(2020, 1, 1,13,45,0);
   private LocalDate reviewCockpitDate = LocalDate.of(2019, 12, 12);
   private LocalDate reviewWheelDate = LocalDate.of(2019, 11, 11);
@@ -226,7 +225,7 @@ public class DataBasePopulator {
 		// MAD --> PARIS
 		Flight flightMadridParis = Flight.builder().flightCode(FLIGHT_CODE_MAD_PARIS)
 				.companyName(COMPANY_NAME_AIREUROPA)
-				.flightDepartureDateTime(dateTime_2020_02_15_10_50)
+				.flightDepartureDateTime(dateTime_2020_01_01_13_45)
 				.flightDuration(BigDecimal.valueOf(1.5))
 				.plane(this.planes.get(PLANE_NUMBER_1))
 				.departureAirport(this.airports.get(CITY_MADRID))
