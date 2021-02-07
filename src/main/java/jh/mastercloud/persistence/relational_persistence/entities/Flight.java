@@ -62,6 +62,5 @@ public class Flight {
 	private Airport destinationAirport;
 
 	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
-	@NotEmpty
 	private List<FlightCrew> crewList;
 }

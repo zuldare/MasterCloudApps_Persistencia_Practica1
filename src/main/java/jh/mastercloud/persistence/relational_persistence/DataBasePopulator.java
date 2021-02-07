@@ -1,6 +1,7 @@
 package jh.mastercloud.persistence.relational_persistence;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import jh.mastercloud.persistence.relational_persistence.entities.Airport;
 import jh.mastercloud.persistence.relational_persistence.entities.Crew;
 import jh.mastercloud.persistence.relational_persistence.entities.Flight;
 import jh.mastercloud.persistence.relational_persistence.entities.FlightCrew;
-import jh.mastercloud.persistence.relational_persistence.entities.JobPosition;
 import jh.mastercloud.persistence.relational_persistence.entities.Plane;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
@@ -84,6 +84,11 @@ public class DataBasePopulator {
   private Map<String, Plane> planes = new HashMap<>();
   private Map<String, Airport> airports = new HashMap<>();
   private Map<String, Crew> crewMembers = new HashMap<>();
+  private Map<String, Flight> flights = new HashMap<>();
+
+  private LocalDateTime dateTime_2020_01_31_08_30 = LocalDateTime.of(2020,1,31,8,30,0);
+  private LocalDateTime dateTime_2020_02_15_10_50 = LocalDateTime.of(2020,2,15, 10,50,0);
+  private LocalDateTime dateTime_2020_01_01_13_45 = LocalDateTime.of(2020, 1, 1,13,45,0);
 
 	public void initDataBase() {
 		 createPlanes();
@@ -127,53 +132,49 @@ public class DataBasePopulator {
 	}
 
 	private void createCrewMembers(){
+
+
 		this.crewMembers.put(WORKER_CODE_CAP_1, Crew.builder().workerCode(WORKER_CODE_CAP_1).name("Santiago").surname("Paradelas")
-				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(new JobPosition(JOB_DESC_CAPTAIN)).build());
+				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(JOB_DESC_CAPTAIN).build());
 		this.crewMembers.put(WORKER_CODE_LTD_1, Crew.builder().workerCode(WORKER_CODE_LTD_1).name("John").surname("Doe")
-				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(new JobPosition(JOB_DESC_COPILOT)).build());
+				.companyName(COMPANY_NAME_AIREUROPA).jobPosition(JOB_DESC_COPILOT).build());
 		this.crewMembers.put(WORKER_CODE_HOS_1, Crew.builder().workerCode(WORKER_CODE_HOS_1).name("Ana").surname("Garcia")
-				.companyName(COMPANY_NAME_HOSTESS).jobPosition(new JobPosition(JOB_DESC_HOSTESS)).build());
+				.companyName(COMPANY_NAME_HOSTESS).jobPosition(JOB_DESC_HOSTESS).build());
 
 		crewRepository.saveAll(this.crewMembers.values());
 	}
 
 	private void createFlights(){
-		Flight.builder().flightCode(FLIGHT_CODE_MAD_LONDON)
-		 .companyName(COMPANY_NAME_AIREUROPA)
-		 .flightDepartureDateTime()
-		 .flightDuration()
-		 .plane(this.planes.get(PLANE_NUMBER_1))
-		 .departureAirport(this.airports.get(AIRPORT_MADRID))
-		 .destinationAirport(this.airports.get(AIRPORT_LONDON))
-				.build();
 
-		Flight.builder().flightCode(FLIGHT_CODE_MAD_PARIS)
+		this.flights.put(FLIGHT_CODE_MAD_LONDON, Flight.builder().flightCode(FLIGHT_CODE_MAD_LONDON)
 				.companyName(COMPANY_NAME_AIREUROPA)
-				.flightDepartureDateTime()
-				.flightDuration()
+				.flightDepartureDateTime(dateTime_2020_01_31_08_30)
+				.flightDuration(BigDecimal.valueOf(2.0))
 				.plane(this.planes.get(PLANE_NUMBER_1))
-				.departureAirport(this.airports.get(AIRPORT_MADRID))
-				.destinationAirport(this.airports.get(AIRPORT_PARIS))
-				.build();
+				.departureAirport(this.airports.get(CITY_MADRID))
+				.destinationAirport(this.airports.get(CITY_LONDON))
+				.build());
 
-		Flight.builder().flightCode(FLIGHT_CODE_LONDON_PARIS)
+		this.flights.put(FLIGHT_CODE_MAD_PARIS, Flight.builder().flightCode(FLIGHT_CODE_MAD_PARIS)
+				.companyName(COMPANY_NAME_AIREUROPA)
+				.flightDepartureDateTime(dateTime_2020_02_15_10_50)
+				.flightDuration(BigDecimal.valueOf(1.5))
+				.plane(this.planes.get(PLANE_NUMBER_1))
+				.departureAirport(this.airports.get(CITY_MADRID))
+				.destinationAirport(this.airports.get(CITY_PARIS))
+				.build());
+
+		this.flights.put(FLIGHT_CODE_LONDON_PARIS, Flight.builder().flightCode(FLIGHT_CODE_LONDON_PARIS)
 				.companyName(COMPANY_NAME_BRITISH)
-				.flightDepartureDateTime()
-				.flightDuration()
+				.flightDepartureDateTime(dateTime_2020_01_01_13_45)
+				.flightDuration(BigDecimal.valueOf(2.5))
 				.plane(this.planes.get(PLANE_NUMBER_3))
-				.departureAirport(this.airports.get(AIRPORT_LONDON))
-				.destinationAirport(this.airports.get(AIRPORT_PARIS))
-				.build();
-//		private String flightCode;
-//		private String companyName;
-//		private LocalDateTime flightDepartureDateTime;
-//		private BigDecimal flightDuration;
-//		private Plane plane;
-//		private Airport departureAirport;
-//		private Airport destinationAirport;
+				.departureAirport(this.airports.get(CITY_LONDON))
+				.destinationAirport(this.airports.get(CITY_PARIS))
+				.build());
 //		private List<FlightCrew> crewList;
 
-
+		flightRepository.saveAll(this.flights.values());
 
 	}
 }

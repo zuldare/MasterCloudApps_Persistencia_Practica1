@@ -77,25 +77,7 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("---------------------------\n\n");
 	}
 
-//	private void generateFlightsInformation(){
-//		System.out.println("-------- FLIGHT CREATION --------");
-//
-//		flightList = Arrays.asList(
-//				Flight.builder().flightCode("BA-0000").companyName(BRITISH_AIRWAYS_COMPANY_NAME)
-//						.flightDuration(BigDecimal.valueOf(10.5))
-//						.flightDepartureDateTime(LocalDateTime.of(2020,01,31,10,30,0))
-//						.plane(planeList.get(0)).build(),
-//
-//				Flight.builder().flightCode("AE-0034")
-//						.companyName(AIR_EUROPA_COMPANY_NAME)
-//						.flightDuration(BigDecimal.valueOf(2.5))
-//						.flightDepartureDateTime(LocalDateTime.of(2020,02,1,10,30,0))
-//						.plane(planeList.get(1)).build()
-//		);
-//		flightRepository.saveAll(flightList);
-//	}
-//
-//
+
 //
 //	private void generateMechanicsInformation() {
 //		System.out.println("-------- PLANE CREATION --------");

@@ -18,26 +18,24 @@ import lombok.ToString;
 @Entity
 @Table(name = "crew")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Crew extends Worker {
 
 	@Column(name = "job_position")
 	@NotNull
-	private JobPosition jobPosition;
+	private String jobPosition;
 
 	@ToString.Exclude
 	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<FlightCrew> flightCrewList;
 
 	@Builder
-	public Crew(String workerCode, String name, String surname, String companyName, JobPosition jobPosition){
+	public Crew(String workerCode, String name, String surname, String companyName, String jobPosition){
 		this.setWorkerCode(workerCode);
 		this.setName(name);
 		this.setSurname(surname);
 		this.setCompanyName(companyName);
 		this.setJobPosition(jobPosition);
-
 	}
 }
