@@ -1,7 +1,11 @@
 package jh.mastercloud.persistence.relational_persistence.entities;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +24,9 @@ public class Crew extends Worker {
 	@Column(name = "job_position")
 	@NotNull
 	private JobPosition jobPosition;
+
+	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<FlightCrew> flightCrewList;
 
 	@Override
 	public String toString(){
