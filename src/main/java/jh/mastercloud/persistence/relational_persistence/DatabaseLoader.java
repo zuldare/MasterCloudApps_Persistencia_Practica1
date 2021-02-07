@@ -1,5 +1,9 @@
 package jh.mastercloud.persistence.relational_persistence;
 
+import java.util.List;
+import jh.mastercloud.persistence.relational_persistence.dtos.PlaneMechanicNameSurnameDto;
+import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
@@ -7,6 +11,9 @@ import org.springframework.stereotype.Controller;
 public class DatabaseLoader implements CommandLineRunner {
 
 	private final DataBasePopulator dataBasePopulator;
+
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
 		this.dataBasePopulator = dataBasePopulator;
@@ -17,9 +24,10 @@ public class DatabaseLoader implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		try {
+			deleteDataBase();
 			initDataBase();
-//			findPlanesAndMechanics();
-//			findLandedFlightsOfaGivenCityAndDate();
+ 			findPlanesAndMechanics();
+			findLandedFlightsOfaGivenCityAndDate();
 //			findCrewDataCitiesAndDatesByCrewCode();
 //			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
 		} finally {
@@ -33,8 +41,13 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("Query 1:");
 		System.out.println("--------------------------------------");
 		System.out.println("For each plane:");
-		System.out.println("  * Show name and surname of mechanic");
+		System.out.println("  * Show name and surname of mechanic \n");
+
+		List<PlaneMechanicNameSurnameDto> airplanesMechanics = reviewRepository.findMechanicNameSurnameOfReviewedPlanesWithJoins();
+		airplanesMechanics.stream().forEach(System.out::println);
 		System.out.println("--------------------------------------\n\n");
+
+
 	}
 
 	private void findLandedFlightsOfaGivenCityAndDate() {
@@ -43,6 +56,11 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("Given a city name and date:");
 		System.out.println("  * List of landed flights in given city");
 		System.out.println("  * Order result by hour");
+
+
+
+
+
 		System.out.println("----------------------------------------\n\n");
 	}
 

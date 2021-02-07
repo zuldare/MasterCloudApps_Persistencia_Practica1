@@ -72,6 +72,9 @@ public class DataBasePopulator {
 	private static final String REVIEW_WHEELS = "WHEELS REVIEW";
 	private static final String REVIEW_WHEELS_ANUAL_CHECK = "Check wheel integrity";
 
+  private static final String REVIEW_GENERAL_CHECK = "General maintenance";
+  private static final String REVIEW_GENERAL = "GENERAL REVIEW";
+
 	@Autowired
 	private PlaneRepository planeRepository;
 
@@ -104,6 +107,7 @@ public class DataBasePopulator {
   private LocalDateTime dateTime_2020_01_01_13_45 = LocalDateTime.of(2020, 1, 1,13,45,0);
   private LocalDate reviewCockpitDate = LocalDate.of(2019, 12, 12);
   private LocalDate reviewWheelDate = LocalDate.of(2019, 11, 11);
+  private LocalDate	reviewGeneralDate = LocalDate.of(2019, 12, 04);
 
 	public void initDataBase() {
 		 createPlanes();
@@ -145,8 +149,14 @@ public class DataBasePopulator {
 				.plane(this.planes.get(PLANE_NUMBER_1)).mechanic(this.mechanics.get(WORKER_CODE_MEC_2))
 				.airport(this.airports.get(CITY_LONDON)).build();
 
+
+		Review reviewGeneralLondon = Review.builder().beginDate(reviewGeneralDate).endDate(reviewGeneralDate).workedHours(BigDecimal.valueOf(2.5))
+				.reviewType(new ReviewType(REVIEW_GENERAL)).reviewDescription(REVIEW_GENERAL_CHECK)
+				.plane(this.planes.get(PLANE_NUMBER_2)).mechanic(this.mechanics.get(WORKER_CODE_MEC_2))
+				.airport(this.airports.get(CITY_LONDON)).build();
+
 		System.out.println("---> INSERT REVIEWS <---");
-		this.reviewRepository.saveAll(Arrays.asList(reviewCockpitMadrid, reviewWheelsLondon));
+		this.reviewRepository.saveAll(Arrays.asList(reviewCockpitMadrid, reviewWheelsLondon, reviewGeneralLondon));
 		System.out.println("-----------------------------\n\n");
 	}
 
