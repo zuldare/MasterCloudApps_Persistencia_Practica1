@@ -235,12 +235,13 @@ public class DataBasePopulator {
 
 		System.out.println("---> INSERT FLIGHTS <---");
 		flightRepository.saveAll(this.flights.values());
-		System.out.println("-----------------------------");
+		System.out.println("-----------------------------\n\n");
 
+		System.out.println("---> ASSIGN CREW TO FLIGHT <---");
 		flightLondonParis.setCrewList(assignCrewToFlight(flightLondonParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_2), this.crewMembers.get(WORKER_CODE_LTD_2), this.crewMembers.get(WORKER_CODE_HOS_2)))));
 		flightMadridLondon.setCrewList(assignCrewToFlight(flightMadridLondon, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1)))));
 		flightMadridParis.setCrewList(assignCrewToFlight(flightMadridParis, new ArrayList(Arrays.asList(this.crewMembers.get(WORKER_CODE_CAP_1), this.crewMembers.get(WORKER_CODE_LTD_1), this.crewMembers.get(WORKER_CODE_HOS_1))) ));
-
+		System.out.println("-----------------------------");
 
 	}
 
