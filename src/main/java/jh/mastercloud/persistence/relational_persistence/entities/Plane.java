@@ -1,19 +1,18 @@
 package jh.mastercloud.persistence.relational_persistence.entities;
 
 import java.math.BigDecimal;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Table(name = "plane")
@@ -27,20 +26,16 @@ public class Plane {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "plate_number")
+	@Column(name = "plate_number", unique = true, nullable = false)
 	private String plateNumber;
 
+	@NotBlank
 	private String manufacturer;
 
+	@NotNull
 	private String model;
 
-	@Column(name = "flight_hours")
+	@Column(name = "flight_hours", nullable = false)
 	private BigDecimal flightHours;
-
-
-	@OneToMany(mappedBy = "plane")
-	@ToString.Exclude
-	private List<Flight> flights;
-
 
 }

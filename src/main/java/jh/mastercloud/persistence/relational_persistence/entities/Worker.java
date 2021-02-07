@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 @MappedSuperclass
@@ -19,14 +20,18 @@ public abstract class Worker {
 	private Long id;
 
 	@Column(name = "worker_code")
+	@NotBlank
 	private String workerCode;
 
 	@Column(name = "name")
+	@NotBlank
 	private String name;
 
-	@Column(name = "surnames")
-	private String surnames;
+	@Column(name = "surname")
+	@NotBlank
+	private String surname;
 
 	@Column(name = "company_name")
+	@NotBlank
 	private String companyName;
 }

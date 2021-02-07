@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +29,7 @@ public class Review {
 	private Long id;
 
 	@Column(name = "begin_date")
+	@NotNull
 	private LocalDate beginDate;
 
 	@Column(name = "end_date")
@@ -35,12 +39,22 @@ public class Review {
 	private BigDecimal workedHours;
 
 	@Column(name = "review_type")
+	@NotNull
 	private ReviewType reviewType;
 
 	@Column(name = "review_description")
+	@NotBlank
 	private String reviewDescription;
 
-	// private Plane plane;
-	// private Mechanic mechanic;
-	// private Airplane airplane;
+	@OneToOne
+	@NotNull
+	private Plane plane;
+
+	@OneToOne
+	@NotNull
+	private Mechanic mechanic;
+
+	@OneToOne
+	@NotNull
+	private Airport airport;
 }

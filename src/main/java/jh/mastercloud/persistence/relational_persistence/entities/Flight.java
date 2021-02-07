@@ -11,7 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,21 +32,31 @@ public class Flight {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "flight_code", nullable = false)
 	private String flightCode;
 
+	@Column(name = "company_name", nullable = false)
 	private String companyName;
 
 	@Column(name = "flight_departure_datetime")
+	@NotNull
 	private LocalDateTime flightDepartureDateTime;
 
 	@Column(name = "flight_duration")
+	@NotNull
 	private BigDecimal flightDuration;
 
-	@ManyToOne
+	@OneToOne
+	@NotNull
 	private Plane plane;
 
-//	private Airport departureAirport;
-//	private Airport destinationAirport;
-//	private Date flightDate;
-//  private List<Crew> crew;
+	@OneToOne
+	@NotNull
+	private Airport departureAirport;
+
+	@OneToOne
+	@NotNull
+	private Airport destinationAirport;
+
+
 }

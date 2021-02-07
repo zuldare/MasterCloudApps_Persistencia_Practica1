@@ -156,7 +156,7 @@ public class DatabaseLoader implements CommandLineRunner {
 	private Mechanic createMechanic(String name, String surname, String companyName, String workerCode, Integer incorporationYear, Training training){
 		Mechanic mechanic = new Mechanic();
 		mechanic.setName(name);
-		mechanic.setSurnames(surname);
+		mechanic.setSurname(surname);
 		mechanic.setCompanyName(companyName);
 		mechanic.setWorkerCode(workerCode);
 		mechanic.setIncorporationYear(incorporationYear);
@@ -189,7 +189,7 @@ public class DatabaseLoader implements CommandLineRunner {
 	private Crew createCrewMember(String name, String surname, String companyName, String workerCode, JobPosition jobPosition) {
 		Crew crew = new Crew();
 		crew.setName(name);
-		crew.setSurnames(surname);
+		crew.setSurname(surname);
 		crew.setCompanyName(companyName);
 		crew.setWorkerCode(workerCode);
 		crew.setJobPosition(jobPosition);
