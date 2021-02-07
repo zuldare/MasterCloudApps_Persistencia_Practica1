@@ -126,8 +126,11 @@ public class DataBasePopulator {
 	}
 
 	private void initData(){
-		this.airports = new HashMap<>();
 		this.planes = new HashMap<>();
+		this.airports = new HashMap<>();
+		this.crewMembers = new HashMap<>();
+		this.flights = new HashMap<>();
+		this.mechanics = new HashMap<>();
 	}
 
 	private void createPlaneReviews(){
