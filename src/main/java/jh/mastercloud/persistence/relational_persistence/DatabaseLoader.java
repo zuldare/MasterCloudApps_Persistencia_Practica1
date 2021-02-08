@@ -6,6 +6,7 @@ import jh.mastercloud.persistence.relational_persistence.dtos.NameSurnameCrew_De
 import jh.mastercloud.persistence.relational_persistence.dtos.PlaneMechanicNameSurnameDto;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.FlightCrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -25,6 +26,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Autowired
 	private CrewRepository crewRepository;
 
+	@Autowired
+	private FlightCrewRepository flightCrewRepository;
+
 	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
 		this.dataBasePopulator = dataBasePopulator;
 	}
@@ -39,7 +43,7 @@ public class DatabaseLoader implements CommandLineRunner {
  			findPlanesAndMechanics();
 			findLandedFlightsOfaGivenCityAndDate();
 			findCrewDataCitiesAndDatesByCrewCode();
-//			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
+			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
 		} finally {
 			deleteDataBase();
 			System.out.println("END");
@@ -52,8 +56,8 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("For each plane:");
 		System.out.println("  * Show name and surname of mechanic \n");
 
-		List<PlaneMechanicNameSurnameDto> airplanesMechanics = reviewRepository.findMechanicNameSurnameOfReviewedPlanesWithJoins();
-		airplanesMechanics.stream().forEach(System.out::println);
+		reviewRepository.findMechanicNameSurnameOfReviewedPlanesWithJoins()
+				.stream().forEach(System.out::println);
 		System.out.println("--------------------------------------\n\n");
 	}
 
@@ -64,9 +68,9 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("  * List of landed flights in given city");
 		System.out.println("  * Order result by hour\n");
 
-		List<FlightByDestinationCityDto> landedFlights = airportRepository
-				.findFlightsGivenCityAndDateOrderedByDepartureDateTime("PARIS".toLowerCase(), "2020-01-01");
-		landedFlights.stream().forEach(System.out::println);
+		airportRepository
+				.findFlightsGivenCityAndDateOrderedByDepartureDateTime("PARIS".toLowerCase(), "2020-01-01")
+				.stream().forEach(System.out::println);
 
 		System.out.println("----------------------------------------\n\n");
 	}
@@ -88,6 +92,9 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("---------------------------------------------------------------------------");
 		System.out.println("For each crew member:");
 		System.out.println("  * Show its name and surname + total number of flights + sum(flight hours)\n");
+
+		this.flightCrewRepository.findCrewDataFlightCountFlightDurationSum()
+				.stream().forEach(System.out::println);
 		System.out.println("---------------------------------------------------------------------------\n\n");
 	}
 
