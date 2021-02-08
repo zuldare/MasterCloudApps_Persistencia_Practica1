@@ -69,6 +69,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	   *******************************
   */
 	private void printDatabase(){
+		System.out.println("===============================>");
+		System.out.println("====> PRINT DATABASE INFO ");
+		System.out.println("===============================>\n");
 		printAirportDatabaseInfo();
 		printCrewDatabaseInfo();
 	  printFlightDatabaseInfo();
@@ -193,7 +196,7 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("INIT DATABASE");
 		System.out.println("___________________________");
 		this.dataBasePopulator.initDataBase();
-		System.out.println("---------------------------\n\n");
+		System.out.println("------- END OF DATABASE INITIALIZATION --------------------\n\n");
 	}
 
 	private void deleteDataBase(){

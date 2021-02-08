@@ -115,7 +115,7 @@ public class DataBasePopulator {
 		 createMechanics();
 		 createPlaneReviews();
 		 createFlights();
-		 System.out.println("=============> END OF DATABASE INITIALIZATION\n\n");
+
 	}
 
 	public void deleteDataBase(){
