@@ -1,12 +1,16 @@
 package jh.mastercloud.persistence.relational_persistence;
 
 import java.util.List;
+import jh.mastercloud.persistence.relational_persistence.dtos.CrewFromFlightDto;
 import jh.mastercloud.persistence.relational_persistence.dtos.FlightByDestinationCityDto;
 import jh.mastercloud.persistence.relational_persistence.dtos.NameSurnameCrew_DepartureDateTimeCity_ByCrewCodeDto;
 import jh.mastercloud.persistence.relational_persistence.dtos.PlaneMechanicNameSurnameDto;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.FlightCrewRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.FlightRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.MechanicRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.PlaneRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,6 +31,15 @@ public class DatabaseLoader implements CommandLineRunner {
 	private CrewRepository crewRepository;
 
 	@Autowired
+	private PlaneRepository planeRepository;
+
+	@Autowired
+	private FlightRepository flightRepository;
+
+	@Autowired
+	private MechanicRepository mechanicRepository;
+
+	@Autowired
 	private FlightCrewRepository flightCrewRepository;
 
 	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
@@ -40,14 +53,92 @@ public class DatabaseLoader implements CommandLineRunner {
 		try {
 			deleteDataBase();
 			initDataBase();
- 			findPlanesAndMechanics();
-			findLandedFlightsOfaGivenCityAndDate();
-			findCrewDataCitiesAndDatesByCrewCode();
-			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
+
+			/* Print database information */
+			printDatabase();
+
+			/* Print queries */
+ 			printQueries();
 		} finally {
 			deleteDataBase();
-			System.out.println("END");
 		}
+	}
+
+	/* *******************************
+	 	 QUERIES
+	   *******************************
+  */
+	private void printDatabase(){
+		printAirportDatabaseInfo();
+		printCrewDatabaseInfo();
+	  printFlightDatabaseInfo();
+		printMechanicDatabaseInfo();
+		printPlaneDatabaseInfo();
+		printReviewDatabaseInfo();
+	}
+
+	private void printAirportDatabaseInfo(){
+		System.out.println("====> AIRPORT");
+		System.out.println("--------------------------------------\n");
+		airportRepository.findAll()
+				.stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
+	}
+
+	private void printCrewDatabaseInfo(){
+		System.out.println("====> CREW");
+		System.out.println("--------------------------------------\n");
+		crewRepository.findAll()
+				.stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
+	}
+
+	private void printFlightDatabaseInfo(){
+		System.out.println("====> FLIGHT");
+		System.out.println("--------------------------------------\n");
+		flightRepository.findAll()
+				.stream().forEach(element -> {
+				 List<CrewFromFlightDto> crew = flightCrewRepository.findCrewFromFlight(element.getId());
+			   System.out.println(element + " (Flight Crew: " + crew + ")");
+		});
+		System.out.println("--------------------------------------\n\n");
+	}
+
+
+	private void printMechanicDatabaseInfo(){
+		System.out.println("====> MECHANIC");
+		System.out.println("--------------------------------------\n");
+		mechanicRepository.findAll()
+				.stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
+	}
+
+	private void printPlaneDatabaseInfo(){
+		System.out.println("====> PLANE");
+		System.out.println("--------------------------------------\n");
+		planeRepository.findAll()
+				.stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
+	}
+
+	private void printReviewDatabaseInfo(){
+		System.out.println("====> REVIEW");
+		System.out.println("--------------------------------------\n");
+		reviewRepository.findAll()
+				.stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
+	}
+
+
+	/* *******************************
+	   QUERIES
+	   *******************************
+	 */
+	private void printQueries(){
+		findPlanesAndMechanics();
+		findLandedFlightsOfaGivenCityAndDate();
+		findCrewDataCitiesAndDatesByCrewCode();
+		findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
 	}
 
 	private void findPlanesAndMechanics() {

@@ -38,4 +38,11 @@ public class Crew extends Worker {
 		this.setCompanyName(companyName);
 		this.setJobPosition(jobPosition);
 	}
+
+	@Override
+	public String toString(){
+		return "[" + super.toString()
+				+ ", job= " + this.jobPosition.toString()
+				+ "]";
+	}
 }

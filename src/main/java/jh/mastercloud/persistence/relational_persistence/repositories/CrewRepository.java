@@ -18,9 +18,5 @@ public interface CrewRepository extends JpaRepository<Crew, Long> {
 			+ " where c.workerCode like :workerCode and f.departureAirport.id = a.id"
 	)
 	List<NameSurnameCrew_DepartureDateTimeCity_ByCrewCodeDto> findCrewDataDepartureInfoByWorkerCode(@Param("workerCode")String workerCode);
-/*
 
- */
-//	Unable to locate appropriate constructor on class [jh.mastercloud.persistence.relational_persistence.dtos.NameSurnameCrew_DepartureDateTimeCity_ByCrewCodeDto].
-//	Expected arguments are: java.lang.String, java.lang.String, java.lang.String, java.time.LocalDateTime
 }

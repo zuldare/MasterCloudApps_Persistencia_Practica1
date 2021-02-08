@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "flight")
@@ -61,6 +62,7 @@ public class Flight {
 	@NotNull
 	private Airport destinationAirport;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FlightCrew> crewList;
 }
