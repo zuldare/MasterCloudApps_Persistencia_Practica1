@@ -2,8 +2,10 @@ package jh.mastercloud.persistence.relational_persistence;
 
 import java.util.List;
 import jh.mastercloud.persistence.relational_persistence.dtos.FlightByDestinationCityDto;
+import jh.mastercloud.persistence.relational_persistence.dtos.NameSurnameCrew_DepartureDateTimeCity_ByCrewCodeDto;
 import jh.mastercloud.persistence.relational_persistence.dtos.PlaneMechanicNameSurnameDto;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +22,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Autowired
 	private AirportRepository airportRepository;
 
+	@Autowired
+	private CrewRepository crewRepository;
+
 	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
 		this.dataBasePopulator = dataBasePopulator;
 	}
@@ -33,7 +38,7 @@ public class DatabaseLoader implements CommandLineRunner {
 			initDataBase();
  			findPlanesAndMechanics();
 			findLandedFlightsOfaGivenCityAndDate();
-//			findCrewDataCitiesAndDatesByCrewCode();
+			findCrewDataCitiesAndDatesByCrewCode();
 //			findForEachCrewMemberTheTotalNumberOfFlightsAndFlightHours();
 		} finally {
 			deleteDataBase();
@@ -57,7 +62,7 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("----------------------------------------");
 		System.out.println("Given a city name and date:");
 		System.out.println("  * List of landed flights in given city");
-		System.out.println("  * Order result by hour");
+		System.out.println("  * Order result by hour\n");
 
 		List<FlightByDestinationCityDto> landedFlights = airportRepository
 				.findFlightsGivenCityAndDateOrderedByDepartureDateTime("PARIS".toLowerCase(), "2020-01-01");
@@ -71,7 +76,10 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("----------------------------------------");
 		System.out.println("Given a crew code:");
 		System.out.println("  * Show its name and surname");
-		System.out.println("  * Show departure (city + date)");
+		System.out.println("  * Show departure (city + date)\n");
+
+		this.crewRepository.findCrewDataDepartureInfoByWorkerCode("CAP-0001")
+		.stream().forEach(System.out::println);
 		System.out.println("----------------------------------------\n\n");
 	}
 
@@ -79,7 +87,7 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("Query 4:");
 		System.out.println("---------------------------------------------------------------------------");
 		System.out.println("For each crew member:");
-		System.out.println("  * Show its name and surname + total number of flights + sum(flight hours)");
+		System.out.println("  * Show its name and surname + total number of flights + sum(flight hours)\n");
 		System.out.println("---------------------------------------------------------------------------\n\n");
 	}
 
