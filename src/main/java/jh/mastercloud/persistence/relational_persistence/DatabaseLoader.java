@@ -51,8 +51,8 @@ public class DatabaseLoader implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		try {
-			deleteDataBase();
-			initDataBase();
+//			deleteDataBase();
+//			initDataBase();
 
 			/* Print database information */
 			printDatabase();
@@ -60,7 +60,7 @@ public class DatabaseLoader implements CommandLineRunner {
 			/* Print queries */
  			printQueries();
 		} finally {
-			deleteDataBase();
+	//		deleteDataBase();
 		}
 	}
 
