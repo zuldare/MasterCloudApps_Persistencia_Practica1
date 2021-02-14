@@ -64,7 +64,11 @@ public class DatabaseLoader implements CommandLineRunner {
 	 * ************************
 	 */
 	private void printHybridDataBase(){
-
+		System.out.println("=====================================>");
+		System.out.println("====> PART 2. HYBRID DATABASE  ");
+		System.out.println("=====================================>\n");
+		dataLogger.printMechanicsInfoByPlane();
+	//	dataLogger.printCrewInfoByCrewMember();
 	}
 
 
@@ -73,9 +77,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	 * ************************
 	 */
 	private void printMongoDBInformation(){
-		System.out.println("===============================>");
-		System.out.println("====> AGGREGATION FRAMEWORK ");
-		System.out.println("===============================>\n");
+		System.out.println("=====================================>");
+		System.out.println("====> PART 3. AGGREGATION FRAMEWORK ");
+		System.out.println("=====================================>\n");
 		dataLogger.printAllProvinces();
 		dataLogger.printCAProvincesInfo();
 	}
