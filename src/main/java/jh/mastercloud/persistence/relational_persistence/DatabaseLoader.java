@@ -45,36 +45,52 @@ public class DatabaseLoader implements CommandLineRunner {
 		this.dataLogger = dataLogger;
 	}
 
-
 	@Override
 	public void run(String... args) throws Exception {
 
-		try {
-//			deleteDataBase();
-//			initDataBase();
+		// PRACTICE 1
+		mySQLPart();
 
-			/* Print mongoDB information */
-			printMongoDBInformation();
+		// PRACTICE 2 PART 2
+		printHybridDataBase();
 
-			/* Print database information */
-			printDatabase();
+		// PRACTICE 2 PART 3
+		printMongoDBInformation();
 
-			/* Print queries */
- 			printQueries();
-		} finally {
-	//		deleteDataBase();
-		}
 	}
 
+	/* ************************
+	 * PRACTICE 2.   PART 2   *
+	 * ************************
+	 */
+	private void printHybridDataBase(){
+
+	}
+
+
+	/* ************************
+	 * PRACTICE 2.   PART 3   *
+	 * ************************
+	 */
 	private void printMongoDBInformation(){
+		System.out.println("===============================>");
+		System.out.println("====> AGGREGATION FRAMEWORK ");
+		System.out.println("===============================>\n");
 		dataLogger.printAllProvinces();
 		dataLogger.printCAProvincesInfo();
 	}
 
-	/* *******************************
-	 	 QUERIES
-	   *******************************
-  */
+
+	/* ********************************
+	   *   MYSQL PART.  PRACTICE 1    *
+	   ********************************
+	 */
+
+	private void mySQLPart(){
+		printDatabase();
+		printQueries();
+	}
+
 	private void printDatabase(){
 		System.out.println("===============================>");
 		System.out.println("====> PRINT DATABASE INFO ");
@@ -114,7 +130,6 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("--------------------------------------\n\n");
 	}
 
-
 	private void printMechanicDatabaseInfo(){
 		System.out.println("====> MECHANIC");
 		System.out.println("--------------------------------------\n");
@@ -139,11 +154,6 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("--------------------------------------\n\n");
 	}
 
-
-	/* *******************************
-	   QUERIES
-	   *******************************
-	 */
 	private void printQueries(){
 		findPlanesAndMechanics();
 		findLandedFlightsOfaGivenCityAndDate();
