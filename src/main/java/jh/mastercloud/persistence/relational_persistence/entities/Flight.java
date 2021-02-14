@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -56,10 +57,12 @@ public class Flight {
 
 	@OneToOne
 	@NotNull
+	@JoinColumn(name = "departure_airport_id")
 	private Airport departureAirport;
 
 	@OneToOne
 	@NotNull
+	@JoinColumn(name = "destination_airport_id")
 	private Airport destinationAirport;
 
 	@ToString.Exclude
