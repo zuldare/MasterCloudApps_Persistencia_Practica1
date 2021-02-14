@@ -1,9 +1,8 @@
 package jh.mastercloud.persistence.relational_persistence.repositories;
 
-import java.time.LocalDate;
 import java.util.List;
-import jh.mastercloud.persistence.relational_persistence.dtos.FlightByDestinationCityDto;
-import jh.mastercloud.persistence.relational_persistence.entities.Airport;
+import jh.mastercloud.persistence.relational_persistence.dtos.mysql.FlightByDestinationCityDto;
+import jh.mastercloud.persistence.relational_persistence.entities.mysql.Airport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface AirportRepository extends JpaRepository<Airport, Long> {
 
 
-	@Query("select new jh.mastercloud.persistence.relational_persistence.dtos.FlightByDestinationCityDto(f.flightCode, f.companyName, f.flightDepartureDateTime, a.city, a.name) "
+	@Query("select new jh.mastercloud.persistence.relational_persistence.dtos.mysql.FlightByDestinationCityDto(f.flightCode, f.companyName, f.flightDepartureDateTime, a.city, a.name) "
 			+ " from Airport a, Flight f "
 			+	" where lower(a.city) like lower(:cityName)  "
 			+ " and  DATE_FORMAT(f.flightDepartureDateTime, '%Y-%m-%d') = :arrivalDate "

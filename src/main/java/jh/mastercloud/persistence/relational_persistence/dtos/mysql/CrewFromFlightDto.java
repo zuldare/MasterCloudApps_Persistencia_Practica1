@@ -1,4 +1,4 @@
-package jh.mastercloud.persistence.relational_persistence.dtos;
+package jh.mastercloud.persistence.relational_persistence.dtos.mysql;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

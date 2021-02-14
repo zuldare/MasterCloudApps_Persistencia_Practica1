@@ -1,10 +1,7 @@
 package jh.mastercloud.persistence.relational_persistence;
 
 import java.util.List;
-import jh.mastercloud.persistence.relational_persistence.dtos.CrewFromFlightDto;
-import jh.mastercloud.persistence.relational_persistence.dtos.FlightByDestinationCityDto;
-import jh.mastercloud.persistence.relational_persistence.dtos.NameSurnameCrew_DepartureDateTimeCity_ByCrewCodeDto;
-import jh.mastercloud.persistence.relational_persistence.dtos.PlaneMechanicNameSurnameDto;
+import jh.mastercloud.persistence.relational_persistence.dtos.mysql.CrewFromFlightDto;
 import jh.mastercloud.persistence.relational_persistence.repositories.AirportRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.CrewRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.FlightCrewRepository;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Controller;
 public class DatabaseLoader implements CommandLineRunner {
 
 	private final DataBasePopulator dataBasePopulator;
+	private final DataLogger dataLogger;
 
 	@Autowired
 	private ReviewRepository reviewRepository;
@@ -42,8 +40,9 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Autowired
 	private FlightCrewRepository flightCrewRepository;
 
-	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
+	public DatabaseLoader(DataBasePopulator dataBasePopulator, DataLogger dataLogger) {
 		this.dataBasePopulator = dataBasePopulator;
+		this.dataLogger = dataLogger;
 	}
 
 
@@ -54,6 +53,9 @@ public class DatabaseLoader implements CommandLineRunner {
 //			deleteDataBase();
 //			initDataBase();
 
+			/* Print mongoDB information */
+			printMongoDBInformation();
+
 			/* Print database information */
 			printDatabase();
 
@@ -62,6 +64,11 @@ public class DatabaseLoader implements CommandLineRunner {
 		} finally {
 	//		deleteDataBase();
 		}
+	}
+
+	private void printMongoDBInformation(){
+		dataLogger.printAllProvinces();
+		dataLogger.printCAProvincesInfo();
 	}
 
 	/* *******************************

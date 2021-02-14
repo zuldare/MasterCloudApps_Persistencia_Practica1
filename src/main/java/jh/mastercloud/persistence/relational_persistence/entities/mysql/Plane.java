@@ -1,4 +1,4 @@
-package jh.mastercloud.persistence.relational_persistence.entities;
+package jh.mastercloud.persistence.relational_persistence.entities.mysql;
 
 import java.math.BigDecimal;
 import javax.persistence.Column;

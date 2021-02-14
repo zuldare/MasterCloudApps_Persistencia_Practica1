@@ -1,4 +1,4 @@
-package jh.mastercloud.persistence.relational_persistence.entities;
+package jh.mastercloud.persistence.relational_persistence.entities.mysql;
 
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

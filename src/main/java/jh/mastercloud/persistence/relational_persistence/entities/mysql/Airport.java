@@ -1,4 +1,4 @@
-package jh.mastercloud.persistence.relational_persistence.entities;
+package jh.mastercloud.persistence.relational_persistence.entities.mysql;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

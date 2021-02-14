@@ -1,4 +1,4 @@
-package jh.mastercloud.persistence.relational_persistence.dtos;
+package jh.mastercloud.persistence.relational_persistence.dtos.mysql;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
