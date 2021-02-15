@@ -22,4 +22,10 @@ public interface FlightCrewRepository extends JpaRepository<FlightCrew, Long> {
 			+ " from FlightCrew fc, Crew c where fc.flight.id = :flightId and fc.crew.id = c.id")
 	List<CrewFromFlightDto> findCrewFromFlight(@Param("flightId") Long flightId);
 
+
+	@Query(value = "SELECT c.name, c.surname, count(f.id) as flightCount, sum(f.flight_duration) as flightDurationSum "
+			+ "FROM crew c  LEFT JOIN flight f ON JSON_CONTAINS(JSON_EXTRACT(f.cabin_crew_ids, '$'), CAST(c.id AS JSON))=1 "
+			+ "GROUP BY c.id", nativeQuery = true)
+	List<CrewNameSurnameSumFlighHoursTotalNumberFlightsDto> findCrewNameSurnameFlightHoursNumberFlightsJSONTable();
 }
+

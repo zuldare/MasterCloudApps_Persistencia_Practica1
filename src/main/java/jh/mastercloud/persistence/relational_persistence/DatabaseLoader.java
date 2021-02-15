@@ -8,6 +8,7 @@ import jh.mastercloud.persistence.relational_persistence.repositories.FlightCrew
 import jh.mastercloud.persistence.relational_persistence.repositories.FlightRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.MechanicRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.PlaneRepository;
+import jh.mastercloud.persistence.relational_persistence.repositories.ProvinceRepository;
 import jh.mastercloud.persistence.relational_persistence.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Controller;
 public class DatabaseLoader implements CommandLineRunner {
 
 	private final DataBasePopulator dataBasePopulator;
-	private final DataLogger dataLogger;
 
 	@Autowired
 	private ReviewRepository reviewRepository;
@@ -40,9 +40,11 @@ public class DatabaseLoader implements CommandLineRunner {
 	@Autowired
 	private FlightCrewRepository flightCrewRepository;
 
-	public DatabaseLoader(DataBasePopulator dataBasePopulator, DataLogger dataLogger) {
+	@Autowired
+	private ProvinceRepository provinceRepository;
+
+	public DatabaseLoader(DataBasePopulator dataBasePopulator) {
 		this.dataBasePopulator = dataBasePopulator;
-		this.dataLogger = dataLogger;
 	}
 
 	@Override
@@ -67,8 +69,31 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("=====================================>");
 		System.out.println("====> PART 2. HYBRID DATABASE  ");
 		System.out.println("=====================================>\n");
-		dataLogger.printMechanicsInfoByPlane();
-	//	dataLogger.printCrewInfoByCrewMember();
+		this.printMechanicsInfoByPlane();
+	  this.printCrewInfoByCrewMember();
+	}
+
+	private void printMechanicsInfoByPlane() {
+		System.out.println("====> For each plane, the mechanics were: ");
+		System.out.println("--------------------------------------\n");
+
+		// TODO Transform to non-native in order to avoid transformation error
+//		this.planeRepository.findPlanesAndMechanicsByJSONField()
+//				.stream().forEach(tuple -> {
+//					System.out.println("Plane&Mechanic(planeNumber=" + tuple.plateNumber() + ", mechanicName=" + tuple.mechanicName() + ", mechanicSurname=" + tuple.mechanicSurname() + ")\n");
+//		});
+
+		System.out.println("--------------------------------------\n\n");
+	}
+
+	private void printCrewInfoByCrewMember(){
+		System.out.println("====> For each crew member, show name, surname and total flights and sum flights: ");
+		System.out.println("--------------------------------------\n");
+
+		this.flightCrewRepository.findCrewDataFlightCountFlightDurationSum()
+				.stream()
+				.forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
 	}
 
 
@@ -80,8 +105,22 @@ public class DatabaseLoader implements CommandLineRunner {
 		System.out.println("=====================================>");
 		System.out.println("====> PART 3. AGGREGATION FRAMEWORK ");
 		System.out.println("=====================================>\n");
-		dataLogger.printAllProvinces();
-		dataLogger.printCAProvincesInfo();
+		this.printAllProvinces();
+		this.printCAProvincesInfo();
+	}
+
+	public void printAllProvinces(){
+		System.out.println("====> Provinces");
+		System.out.println("--------------------------------------\n");
+		provinceRepository.findAll().stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
+	}
+
+	public void printCAProvincesInfo(){
+		System.out.println("====> For each community number of provinces");
+		System.out.println("--------------------------------------\n");
+		provinceRepository.findAllCAandEachNumberProvinces().stream().forEach(System.out::println);
+		System.out.println("--------------------------------------\n\n");
 	}
 
 
